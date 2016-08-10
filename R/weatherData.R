@@ -184,7 +184,7 @@ getSummarizedWeather <- function(station_id,
   if(opt_verbose){
     message(sprintf("Retrieving from: %s", custom_url))    
   }  
-  wxdata <- readUrl(custom_url)
+  wxdata <- try(readLines(curl::curl(final_url)))
   if(!isObtainedDataValid(wxdata, station_id, custom_url)) return(NULL)
   
   df <- cleanAndSubsetObtainedData(wxdata,
