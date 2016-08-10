@@ -71,8 +71,9 @@ getDetailedWeather <- function(station_id,
   #-------------------  
   # reading in as raw lines from the web server
   # contains <br> tags on every other line
-  wxdata <- try(readLines(curl::curl(final_url)))
-
+  con<-curl::curl(final_url)
+  wxdata <- try(readLines(con))
+  close(con)
   # check that the results are usable
   if(grepl(pattern="No daily or hourly history data", wxdata[3]) ==TRUE){
     if(opt_warnings) {
@@ -184,7 +185,10 @@ getSummarizedWeather <- function(station_id,
   if(opt_verbose){
     message(sprintf("Retrieving from: %s", custom_url))    
   }  
-  wxdata <- try(readLines(curl::curl(final_url)))
+   con<-curl::curl(final_url)
+  wxdata <- try(readLines(con))
+  close(con)
+  
   if(!isObtainedDataValid(wxdata, station_id, custom_url)) return(NULL)
   
   df <- cleanAndSubsetObtainedData(wxdata,
