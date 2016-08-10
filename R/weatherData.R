@@ -71,7 +71,7 @@ getDetailedWeather <- function(station_id,
   #-------------------  
   # reading in as raw lines from the web server
   # contains <br> tags on every other line
-  wxdata <- readUrl(final_url)
+  wxdata <- readLines(curl:curl(final_url))
 
   # check that the results are usable
   if(grepl(pattern="No daily or hourly history data", wxdata[3]) ==TRUE){
